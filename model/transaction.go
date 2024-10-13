@@ -133,5 +133,4 @@ func GenerateFalseTransactions() []Transaction {
 		},
 	}
 	return transactions
-
 }
