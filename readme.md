@@ -5,7 +5,7 @@ This is a Go-based service that collects new delegations from the Tezos blockcha
 
 ## Features
 
-- **Continuous Delegation Polling**: Fetches new Tezos delegations every 30 seconds and stores them.
+- **Continuous Delegation Polling**: Fetches new Tezos delegations every 15 seconds and stores them.
 - **Public API**:
   - `GET /xtz/delegations`: Retrieves stored delegations in JSON format, sorted by the most recent first.
 - **Configurable Server Port**: Define the server's port via command-line arguments or environment variables.
