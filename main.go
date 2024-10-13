@@ -7,6 +7,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/FayxChance/tha-backend-tezos/model"
 	"github.com/gin-gonic/gin"
 )
 
@@ -28,11 +29,11 @@ func main() {
 	// Create a new Gin router instance
 	router := gin.Default()
 
+	var transactions []model.Transaction = model.GenerateFalseTransactions()
+
 	// Define a simple GET route
 	router.GET("/xtz/delegations", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "Hello, world!",
-		})
+		c.JSON(200, transactions)
 	})
 
 	// Start the server on the provided port or default to 8080
