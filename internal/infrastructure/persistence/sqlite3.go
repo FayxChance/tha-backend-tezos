@@ -30,12 +30,13 @@ func (sql3db *SQLite3Database) SetupDatabase() error {
 			fmt.Println("Table 'Delegations' does not exist, creating...")
 
 			sqlStmt := `
-				CREATE TABLE IF NOT EXISTS Delegations (
-					id INTEGER PRIMARY KEY AUTOINCREMENT,  -- Auto-incrementing primary key for SQLite
-					timestamp TIMESTAMP NOT NULL,         -- Equivalent to time.Time in Go
-					amount VARCHAR(255) NOT NULL,         -- String type for amount
-					delegator VARCHAR(255) NOT NULL,      -- String type for delegator
-					level VARCHAR(255) NOT NULL           -- String type for level
+				CREATE TABLE Delegations (
+					id INTEGER PRIMARY KEY AUTOINCREMENT,
+					tzkt_id BIGINT UNIQUE,             
+					timestamp TIMESTAMP NOT NULL,
+					amount VARCHAR(255) NOT NULL,
+					delegator VARCHAR(255) NOT NULL,
+					level VARCHAR(255) NOT NULL
 				);
 			`
 			_, err = db.Exec(sqlStmt)

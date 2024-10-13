@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/FayxChance/tha-backend-tezos/internal/app/service"
+	"github.com/FayxChance/tha-backend-tezos/model"
 	"github.com/gin-gonic/gin"
 )
 
@@ -18,6 +19,9 @@ func (d *DelegationsController) Delegations(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, delegations)
+	c.JSON(200, model.Data{
+		Data: delegations,
+	},
+	)
 
 }
