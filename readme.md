@@ -1,75 +1,90 @@
-# THA-BACKEND-TEZOS
 
-This is a basic API built using the Gin web framework in Go. It provides an endpoint to retrieve delegation data and can be run on a custom port specified via command line or environment variables.
+# THA-Backend-Tezos
+
+This is a Go-based service that collects new delegations from the Tezos blockchain using the tzKT API. The service continuously polls delegations and stores them in a database, which can be accessed through a public API endpoint.
 
 ## Features
 
-- **GET `/xtz/delegations`**: Returns a JSON response with a welcome message.
-- Command-line flag support to specify the server's port (defaults to `8080`).
-- Option to use the `PORT` environment variable to set the server's port.
-
+- **Continuous Delegation Polling**: Fetches new Tezos delegations every 30 seconds and stores them.
+- **Public API**:
+  - `GET /xtz/delegations`: Retrieves stored delegations in JSON format, sorted by the most recent first.
+- **Configurable Server Port**: Define the server's port via command-line arguments or environment variables.
+  
 ## Installation
 
-1. **Clone the repository:**
+1. Clone the repository:
 
-   ```bash
-   git clone https://github.com/FayxChance/tha-backend-tezos
-   cd gin-delegations-api
-   ```
+    ```bash
+    git clone https://github.com/FayxChance/tha-backend-tezos
+    cd tha-backend-tezos
+    ```
 
-2. **Install dependencies:**
+2. Install the dependencies:
 
-   Make sure you have Go installed. Then, install Gin using:
+    Make sure you have Go installed. Then, run:
 
-   ```bash
-   go get -u github.com/gin-gonic/gin
-   ```
+    ```bash
+    go get -u github.com/gin-gonic/gin
+    ```
 
 ## Running the Application
 
-You can run the application with a custom port via command-line argument or environment variable.
+You can run the service with a custom port via command-line argument or environment variable.
 
-### 1. Running with a default port (`8080`):
+### 1. Running on the default port (`8080`):
 
-   ```bash
-   go run main.go
-   ```
+```bash
+go run main.go
+```
 
-### 2. Running with a custom port using the command-line argument:
+### 2. Running with a custom port using a command-line argument:
 
-   ```bash
-   go run main.go -port=9090
-   ```
+```bash
+go run main.go -port=9090
+```
 
 ### 3. Running with a custom port using the `PORT` environment variable:
 
-   ```bash
-   export PORT=9090
-   go run main.go
-   ```
+```bash
+export PORT=9090
+go run main.go
+```
 
-The server will start on the specified port. You can access the API at `http://localhost:<PORT>/xtz/delegations`.
+The server will be available at `http://localhost:<PORT>/xtz/delegations`.
 
 ## Endpoints
 
 ### `GET /xtz/delegations`
 
-Returns a simple JSON message.
+Retrieves the stored delegations in JSON format.
 
-**Response:**
-
+Example response:
 ```json
 {
-  "message": "Hello, world!"
+  "data": [
+    {
+      "timestamp": "2023-10-10T12:34:56Z",
+      "amount": "1000000",
+      "delegator": "tz1...",
+      "level": "123456"
+    }
+  ]
 }
 ```
 
 ## Dependencies
 
-- [Gin](https://github.com/gin-gonic/gin): Web framework used for building the API.
+- **Gin**: Web framework for Go.
+- **SQLite**: Lightweight database to persist delegation data.
+- **tzKT API**: Used for fetching new delegations from Tezos.
 
-To install the dependencies, run:
+Install all dependencies by running:
 
 ```bash
 go get -u github.com/gin-gonic/gin
+go get github.com/mattn/go-sqlite3
 ```
+
+## License
+
+This project is licensed under the MIT License.

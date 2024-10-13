@@ -5,34 +5,37 @@ import (
 	"time"
 )
 
+// Address struct represents a simple address model.
 type Address struct {
-	Address string `json:"address"`
+	Address string `json:"address"` // The actual address, serialized in JSON as "address"
 }
 
+// Transaction struct represents a transaction model, used to capture details of a Tezos transaction.
 type Transaction struct {
-	ID        int64     `json:"id"`
-	Level     int       `json:"level"`
-	Timestamp time.Time `json:"timestamp"`
-	Amount    int64     `json:"amount"`
-	Sender    Address   `json:"sender"`
+	ID        int64     `json:"id"`        // Unique identifier for the transaction
+	Level     int       `json:"level"`     // Block level (height) at which the transaction occurred
+	Timestamp time.Time `json:"timestamp"` // The time the transaction occurred
+	Amount    int64     `json:"amount"`    // The amount transacted (as an integer for precision)
+	Sender    Address   `json:"sender"`    // The sender's address, wrapped in an Address struct
 }
 
+// TransactionToDelegation converts a Transaction struct into a Delegation struct.
+// This is useful for converting transaction data into the format required for delegation records.
 func TransactionToDelegation(tx Transaction) Delegation {
 	delegation := Delegation{
-		TzKTID:    tx.ID,
-		Timestamp: tx.Timestamp,
-		Amount:    fmt.Sprintf("%d", tx.Amount),
-		Delegator: tx.Sender.Address,
-		Level:     fmt.Sprintf("%d", tx.Level),
+		TzKTID:    tx.ID,                        // Use the transaction ID as the TzKT ID
+		Timestamp: tx.Timestamp,                 // Pass the transaction timestamp
+		Amount:    fmt.Sprintf("%d", tx.Amount), // Convert amount to string for the Delegation model
+		Delegator: tx.Sender.Address,            // Set the sender's address as the delegator
+		Level:     fmt.Sprintf("%d", tx.Level),  // Convert block level to string
 	}
 
-	// Print the delegation for debugging
-	// fmt.Printf("Converted Delegation: TzKTID: %d, Timestamp: %s, Amount: %s, Delegator: %s, Level: %s\n",
-	// 	delegation.TzKTID, delegation.Timestamp, delegation.Amount, delegation.Delegator, delegation.Level)
-
+	// Return the newly created delegation
 	return delegation
 }
 
+// GenerateFalseTransactions creates some mock transaction data for testing or debugging purposes.
+// This function generates fake transactions with different levels, timestamps, and senders.
 func GenerateFalseTransactions() []Transaction {
 	transactions := []Transaction{
 		{
